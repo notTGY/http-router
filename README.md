@@ -1,6 +1,10 @@
 # http-router
 Turn your router into a webserver
 
+Asus RT-N66U 2.6.22.19 linux kernel MIPS le arch
+
+## Shoutouts
+[nice article about compilation](https://zyfdegh.github.io/post/202002-go-compile-for-mips/)
 
 
 ## Compilation
@@ -44,9 +48,6 @@ Then execute
 
 ## Outcome
 
-In my case everything works except the last step.
-The output is as follows:
 ```
-./http_server: line 1: EL: not found
-./http_server: line 2: syntax error: unexpected "("
+Hello, World!
 ```
