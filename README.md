@@ -48,6 +48,11 @@ Then execute
 
 ## Outcome
 
+Outdated linux kernel does not work with go net
+
 ```
 Hello, World!
+Starting server on :8000
+runtime: epollcreate failed with 89
+fatal error: runtime: netpollinit failed
 ```
