@@ -2,6 +2,7 @@
 
 # Stage 1: Build the Go HTTP server
 FROM golang:1.23.3 AS builder
+RUN apt-get update && apt-get install gcc-mips-linux-gnu -y
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -9,13 +10,9 @@ WORKDIR /app
 # Copy the Go source code into the container
 COPY http_server.go .
 
-# Set the environment variables for cross-compilation
-ENV GOOS=linux
-ENV GOARCH=mips
-ENV CGO_ENABLED=0
-
 # Build the Go application
-RUN go build -o http_server http_server.go
+RUN GOOS=linux GOARCH=mipsle GOMIPS=softfloat go build -tags netgo -o http_server http_server.go
+
 
 # Stage 2: Create a minimal image to hold the compiled binary
 FROM alpine:latest
