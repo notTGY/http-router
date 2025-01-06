@@ -2,6 +2,8 @@
 Turn your router into a webserver
 
 Asus RT-N66U 2.6.22.19 linux kernel MIPS le arch
+This linux kernel is too old, but with a go version
+1.13, it is barely passable to run a webserver.
 
 ## Shoutouts
 [nice article about compilation](https://zyfdegh.github.io/post/202002-go-compile-for-mips/)
@@ -53,6 +55,4 @@ Outdated linux kernel does not work with go net
 ```
 Hello, World!
 Starting server on :8000
-runtime: epollcreate failed with 89
-fatal error: runtime: netpollinit failed
 ```
