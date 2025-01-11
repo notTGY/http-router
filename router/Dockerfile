@@ -1,9 +1,9 @@
-FROM golang:1.13 AS builder
+FROM golang:1.17 AS builder
 
 WORKDIR /app
 COPY . .
 
-RUN GOOS=linux GOARCH=mipsle go install github.com/tarm/serial
+RUN GOOS=linux GOARCH=mipsle go mod tidy
 RUN GOOS=linux GOARCH=mipsle GOMIPS=softfloat go build -ldflags="-extldflags=-static" -tags netgo -o http_server main.go
 
 

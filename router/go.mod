@@ -1,7 +1,10 @@
 module github.com/nottgy/http-router/router
 
-go 1.23.3
+go 1.17
 
-require github.com/tarm/serial v0.0.0-20180830185346-98f6abe2eb07
+require go.bug.st/serial v1.6.2
 
-require golang.org/x/sys v0.29.0 // indirect
+require (
+	github.com/creack/goselect v0.1.2 // indirect
+	golang.org/x/sys v0.0.0-20220829200755-d48e67d00261 // indirect
+)

@@ -7,17 +7,18 @@ import (
   "net"
   "io"
 
-	"github.com/tarm/serial"
+  "go.bug.st/serial"
+
+  "github.com/nottgy/http-router/router/device"
 )
 
-//const DEVICE = "COM4" // Windows
-const DEVICE = "/dev/ttyACM0" // Linux
-const MTU = 246
+const DEVICE = device.DEVICE
+const MTU = 256
 const MAX_CHUNKS = 32
 
 func onConnection(
-  pico *serial.Port,
   //pico net.Conn,
+  pico serial.Port,
   conn net.Conn,
 ) error {
   //fmt.Printf("Request:\n")
@@ -105,16 +106,29 @@ func onConnection(
 }
 
 func main() {
-	config := &serial.Config{
-		Name: DEVICE,
-		Baud: 115200,
+	config := &serial.Mode{
+		BaudRate: 115200,
 	}
-	var pico *serial.Port
+	var pico serial.Port
 	//var pico net.Conn
+
+  fmt.Printf("Started\n")
+  ports, err := serial.GetPortsList()
+  if err != nil {
+    fmt.Println("Serial err: ", err)
+  }
+  if len(ports) == 0 {
+    fmt.Println("No serial ports found!")
+  }
+  for _, port := range ports {
+    fmt.Printf("Found port: %v\n", port)
+  }
+  fmt.Printf("Scan finished\n")
+
 
 	for {
 		var err error
-    pico, err = serial.OpenPort(config)
+    pico, err = serial.Open(DEVICE, config)
 		//pico, err = net.Dial("unix", DEVICE)
 		if err != nil {
 			fmt.Println("Error opening serial port:", err)
@@ -125,11 +139,14 @@ func main() {
 	}
 	defer pico.Close()
 
-  ln, err := net.Listen("tcp", ":8000")
+
+  port := 8000
+  ln, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
   if err != nil {
     fmt.Println("Error listening:", err)
     return
   }
+  fmt.Printf("listening on port %d\n", port)
 	for {
     conn, err := ln.Accept()
     if err != nil {
